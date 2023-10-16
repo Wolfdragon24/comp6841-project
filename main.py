@@ -1,0 +1,136 @@
+import os
+import json
+import datetime
+import base64
+
+from flask import Flask, render_template, send_file, jsonify, request
+import pytz
+
+aus = pytz.timezone('Australia/Sydney')
+
+challenges = {
+
+}
+
+# Construct application
+app = Flask(__name__)
+
+# ROUTES
+
+@app.route('/', methods=['GET'])
+def main():
+    return render_template('index.html')
+
+@app.route('/background', methods=['GET'])
+def fetch_background():
+    return send_file('resources/background.jpg', mimetype='image/jpg')
+
+@app.route('/user/<str:user_id>', methods=['GET'])
+def locate_user(user_id):
+    if request.method == "GET":
+        if user_id in users:
+            return jsonify({
+                'valid': True,
+                'cookie': users[user_id]['cookie']
+            })
+
+        return jsonify({
+            'valid': False
+        })
+
+    return jsonify({
+        'valid': False
+    })
+
+@app.route('/user', methods=['GET'])
+def user_details():
+    if request.method == "GET":
+        cookie = request.headers.get('cookie', '')
+        user = get_user_by_cookie(cookie)
+
+        if not user:
+            return jsonify({
+                'valid': False
+            })
+
+        return jsonify({
+            'valid': True,
+            'points': user['points'],
+            'username': user['username']
+        })
+
+    return jsonify({
+        'valid': False
+    })
+
+@app.route('/challenge/<str:challenge_id>', methods=['GET', 'POST'])
+def challenge_lookup(challenge_id):
+    cookie = request.headers.get('cookie', '')
+    user = get_user_by_cookie(cookie)
+
+    if challenge_id in challenges:
+        challenge = challenges[challenge_id]
+    else:
+        return jsonify({
+            'valid': False
+        })
+    got_flag = challenge_id in user['challenges']
+
+    if request.method == "GET":
+        return jsonify({
+            'valid': True,
+            'title': challenge['title'],
+            'desc': challenge['desc'],
+            'gotFlag': got_flag
+        })
+    if request.method == "POST":
+        data = request.get_json(force=True)
+        if data['submission'] == challenge['answer']:
+            if got_flag:
+                return jsonify({
+                    'valid': False,
+                    'correct': True
+                })
+
+            user['challenges'].append(challenge_id)
+
+            update_db(users)
+
+            return jsonify({
+                'valid': True,
+                'correct': True
+            })
+
+        return jsonify({
+            'valid': True,
+            'correct': False
+        })
+
+    return jsonify({
+        'valid': False
+    })
+
+# HELPER FUNCTIONS
+
+def make_cookie(username: str):
+    return base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
+
+def get_user_by_cookie(cookie: str):
+    user = [users[user] for user in users.items() if users[user]['cookie'] == cookie]
+    return user[0] if user else None
+
+def fetch_db():
+    if os.path.exists('database.json'):
+        with open('database.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    return {}
+
+def update_db(data):
+    with open('database.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+
+
+# SETUP
+
+users = fetch_db()
