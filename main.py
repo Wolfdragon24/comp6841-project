@@ -11,17 +11,17 @@ aus = pytz.timezone('Australia/Sydney')
 challenges = {
     "osint": {
         "title": "Where was I taken?",
-        "desc": "",
+        "desc": "I spy with my little eye... a world far down below. Name from whence the lens nigh, then the flag you seek you know.\n\nThe flag is in all caps separated by underscores, e.g. DOM_CTF{CENTRAL_STATION}. https://ctf.wolfdragon.me/resources/osint.jpg",
         "answer": "MERITON_SUITE_WORLD_TOWER"
     },
     "bufferformat": {
         "title": "One won't bring you far enough...",
-        "desc": "",
+        "desc": "You've seen buffer overflows vulnerabilities, you've seen format strings vulnerabilities, but have you needed both?\n\nLocated at 'nc ctf.wolfdragon.me 62401' is the answer you seek, exploring the binary locally first from 'https://ctf.wolfdragon.me/resources/bufferformat' is highly recommended!",
         "answer": "TRAILBLAZED_THE_DOUBLE"
     },
     "stego": {
         "title": "Great views up here!",
-        "desc": "",
+        "desc": "Up in the air again in yet another challenge. This time, keep your eyes out for clues and you might just spot the keys you're looking for. Your key will be enclosed in two keys, though what you have now might not be what you must use now...\n\nhttps://ctf.wolfdragon.me/resources/stego.png",
         "answer": "HIDDEN_IN_PLANE_SIGHT"
     }
 }
