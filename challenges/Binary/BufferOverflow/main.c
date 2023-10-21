@@ -50,7 +50,7 @@ void setupVal(void) {
 
 void win(void) {
     if (start == guess) {
-        printf("Trail well followed, here is your flag: \"DOM_CTF{TRAILBLAZED_THE_DOUBLE}\"!\n");
+        printf("Trail well followed, here is your flag: \"DOM_CTF{VERY_REAL_FLAG}\"!\n");
     } else {
         printf("Hmmm... how did you get here?\n");
     }
