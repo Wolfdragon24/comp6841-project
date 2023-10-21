@@ -35,9 +35,9 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
-@app.route('/background', methods=['GET'])
-def fetch_background():
-    return send_file('resources/background.jpg', mimetype='image/jpg')
+@app.route('resources/<str:name>', methods=['GET'])
+def fetch_resource(name):
+    return send_file(f'resources/{name}')
 
 @app.route('/user/<str:user_id>', methods=['GET'])
 def locate_user(user_id):
