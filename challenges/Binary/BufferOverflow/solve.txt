@@ -1,0 +1,13 @@
+This challenge involves format strings and buffer overflows in a two-sided trail, where a condition must be fulfilled on top of a function call. One potential solution is as follows:
+
+1. First by running the program, it is possible to identify that three inputs are present, a string, an integer, and then another string. By running objdump on the program, you can identify a win function which isn't called in normal execution and the global variable of start. These are the primary aspects that you need the addresses for manipulation, which can be acquired using gdb on the local file.
+
+2. First, by utilising the format string vulnerability in the first input, you are able to adjust the value of the start variable. This will be needed later for the win function to activate and return the flag. This can be done by using the address and %n to input a given value into start. For convenience, the value 4 is already given from the address bytes.
+
+3. Secondly, it is necessary to equate this value using the second input to fill the "guess" variable with the correct value. This is a simple input.
+
+4. Thirdly, to call the win function, it is necessary to exploit the buffer overflow vulnerability. By trial and error or analysing code, it is possible to identify the quantity of fill characters needed (44), and using the address of the win function, this can be entered into the third input.
+
+5. The win function is then called and given the start and guess variables have been correctly manipulated, will result in the flag!
+
+(python2 -c "print '\x0c\x90\x55\x56%4\$n'"; python2 -c "print '4'"; python2 -c "print 'A'*44 + '\x45\x63\x55\x56'";) | ./main

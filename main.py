@@ -9,7 +9,21 @@ import pytz
 aus = pytz.timezone('Australia/Sydney')
 
 challenges = {
-
+    "osint": {
+        "title": "Where was I taken?",
+        "desc": "",
+        "answer": "MERITON_SUITE_WORLD_TOWER"
+    },
+    "bufferformat": {
+        "title": "One won't bring you far enough...",
+        "desc": "",
+        "answer": "TRAILBLAZED_THE_DOUBLE"
+    },
+    "stego": {
+        "title": "Great views up here!",
+        "desc": "",
+        "answer": "HIDDEN_IN_PLANE_SIGHT"
+    }
 }
 
 # Construct application
@@ -85,7 +99,7 @@ def challenge_lookup(challenge_id):
         })
     if request.method == "POST":
         data = request.get_json(force=True)
-        if data['submission'] == challenge['answer']:
+        if data['submission'] == f"DOM_CTF{{{challenge['answer']}}}":
             if got_flag:
                 return jsonify({
                     'valid': False,
@@ -129,7 +143,6 @@ def fetch_db():
 def update_db(data):
     with open('database.json', 'w', encoding='utf-8') as f:
         json.dump(data, f)
-
 
 # SETUP
 

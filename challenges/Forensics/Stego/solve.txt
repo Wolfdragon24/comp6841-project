@@ -1,0 +1,7 @@
+This challenge involves files concealed inside PNGs, visual information and EXIF data.
+
+1. There are two main initially sources of information. From using EXIFTool, it is possible to identify the string "sggobKQej4 ⚿". By visually analysing the image, it is possible to identify the string "⚿ AB4xnxhRZh". Using the emojis, it can be interpolated that the strings should be connected as "⚿ AB4xnxhRZhsggobKQej4 ⚿" which is a key for a later stage.
+
+2. Using a steganography PNG extractor such as from https://github.com/pedrooaugusto/steganography-png, you are able to acquire a 7z file. However, this file is password locked.
+
+3. Using the key acquired in Step 1, it is possible to unlock the 7z and a file is contained with the flag as the name.
