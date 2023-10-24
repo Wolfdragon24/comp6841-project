@@ -259,10 +259,16 @@
         const submission = document.getElementById('flagInput').value;
         const cookie = getCookie();
         const challengeId = document.getElementById('submitButton').dataset.challengeId;
+        const errorText = document.getElementById('challengeErrorText');
+
+        if (!submission) {
+          errorText.innerHTML = "Error: Please input the flag you have found!"
+          errorText.hidden = false;
+          return;
+        }
 
         const data = await submitChallenge(cookie, challengeId, submission);
 
-        const errorText = document.getElementById('challengeErrorText');
         if (!data.valid) {
           if (data.correct) {
             errorText.innerHTML = "Error: You have already got this flag!";
