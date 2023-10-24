@@ -340,6 +340,8 @@
           data = await getUserData(cookie);
         };
 
+        if (!data?.valid) document.cookie = 'challengeCookie=;';
+
         document.getElementById('loginButton').hidden = cookie;
         document.getElementById('logoutButton').hidden = !cookie;
         document.getElementById('pointsDisplay').hidden = !cookie;
