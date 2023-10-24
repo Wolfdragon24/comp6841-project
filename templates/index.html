@@ -259,18 +259,22 @@
 
         const data = await submitChallenge(cookie, challengeId, submission);
 
+        const errorText = document.getElementById('challengeErrorText');
         if (!data.valid) {
           if (data.correct) {
-            document.getElementById('challengeErrorText').innerHTML = "Error: You have already got this flag!";
+            errorText.innerHTML = "Error: You have already got this flag!";
           } else {
-            document.getElementById('challengeErrorText').innerHTML = "Error: You must be logged in to submit a flag!";
+            errorText.innerHTML = "Error: You must be logged in to submit a flag!";
           }
+          errorText.hidden = false;
         } else {
           if (data.correct) {
             document.getElementById('challengeSubmitText').hidden = !data.gotFlag;
             document.getElementById('submitButton').disabled = data.gotFlag;
+            errorText.hidden = true;
           } else {
-            document.getElementById('challengeErrorText').innerHTML = "Your submitted flag was incorrect.";
+            errorText.innerHTML = "Your submitted flag was incorrect.";
+            errorText.hidden = false;
           }
         }
       };
