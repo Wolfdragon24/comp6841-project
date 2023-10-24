@@ -87,7 +87,7 @@ def locate_user(user_id):
 @app.route('/user', methods=['GET'])
 def user_details():
     if request.method == "GET":
-        cookie = request.headers.get('cookie', '')
+        cookie = request.headers.get('user', '')
         user = get_user_by_cookie(cookie)
 
         if not user:
@@ -107,7 +107,7 @@ def user_details():
 
 @app.route('/challenge/<string:challenge_id>', methods=['GET', 'POST'])
 def challenge_lookup(challenge_id):
-    cookie = request.headers.get('cookie', '')
+    cookie = request.headers.get('user', '')
     user = get_user_by_cookie(cookie)
 
     if challenge_id in challenges:
