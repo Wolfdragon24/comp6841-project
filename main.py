@@ -35,7 +35,7 @@ def fetch_db():
 
 def update_db(data):
     with open('database.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=2)
 
 # SETUP
 
@@ -66,7 +66,7 @@ def locate_user(user_id):
         return jsonify({
             'valid': False
         })
-    elif request.method == "POST":
+    if request.method == "POST":
         if user_id in users:
             return jsonify({
             'valid': False
