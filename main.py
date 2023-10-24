@@ -26,6 +26,21 @@ challenges = {
     }
 }
 
+def fetch_db():
+    if os.path.exists('database.json'):
+        with open('database.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    return {}
+
+def update_db(data):
+    with open('database.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+
+# SETUP
+
+users = fetch_db()
+
 # Construct application
 app = Flask(__name__)
 
@@ -39,7 +54,7 @@ def main():
 def fetch_resource(name):
     return send_file(f'resources/{name}')
 
-@app.route('/user/<string:user_id>', methods=['GET'])
+@app.route('/user/<string:user_id>', methods=['GET', 'POST'])
 def locate_user(user_id):
     if request.method == "GET":
         if user_id in users:
@@ -50,6 +65,18 @@ def locate_user(user_id):
 
         return jsonify({
             'valid': False
+        })
+    elif request.method == "POST":
+        if user_id in users:
+            return jsonify({
+            'valid': False
+        })
+
+        user = make_user(user_id)
+
+        return jsonify({
+            'valid': True,
+            'cookie': user['cookie']
         })
 
     return jsonify({
@@ -69,7 +96,7 @@ def user_details():
 
         return jsonify({
             'valid': True,
-            'points': user['points'],
+            'points': len(user["challenges"]),
             'username': user['username']
         })
 
@@ -138,17 +165,12 @@ def get_user_by_cookie(cookie: str):
     user = [users[user] for user in users.items() if users[user]['cookie'] == cookie]
     return user[0] if user else None
 
-def fetch_db():
-    if os.path.exists('database.json'):
-        with open('database.json', 'r', encoding='utf-8') as f:
-            return json.load(f)
+def make_user(username: str):
+    new_user = {
+        "username": username,
+        "challenges": [],
+        "cookie": make_cookie(username)
+    }
+    users[username] = new_user
 
-    return {}
-
-def update_db(data):
-    with open('database.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f)
-
-# SETUP
-
-users = fetch_db()
+    return new_user

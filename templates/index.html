@@ -284,24 +284,29 @@
           return;
         }
 
+        $('#loginModal').modal('hide');
         await updateMainPage();
       };
 
       const logout = async () => {
         document.cookie = 'challengeCookie=;'
 
+        $('#logoutModal').modal('hide');
         await updateMainPage();
       }
 
       const createAccount = async () => {
         const username = document.getElementById('usernameInput').value;
 
-        const res = await makeConnection(username);
+        const res = await createConnection(username);
 
-        if (res) {
+        if (!res) {
           document.getElementById('usernameInput').style.borderColor = 'orangered';
-          document.getElementById('accountFoundWarn').hidden = !res;
+          document.getElementById('accountFoundWarn').hidden = res;
         }
+
+        $('#loginModal').modal('hide');
+        await updateMainPage();
       };
 
       // Central functions
@@ -337,6 +342,18 @@
         });
         
         const data = await res.json();
+        if (data.valid) {
+          document.cookie = data.cookie;
+        }
+
+        return data.valid;
+      }
+
+      const createConnection = async (username) => {
+        const addReq = await fetch(`/user/${username}`, {
+          method: "POST"
+        });
+
         if (data.valid) {
           document.cookie = data.cookie;
         }
