@@ -60,7 +60,7 @@ def locate_user(user_id):
         if user_id in users:
             return jsonify({
                 'valid': True,
-                'cookie': users[user_id]['cookie']
+                'cookie': format_cookie(users[user_id]['cookie'])
             })
 
         return jsonify({
@@ -77,7 +77,7 @@ def locate_user(user_id):
 
         return jsonify({
             'valid': True,
-            'cookie': user['cookie']
+            'cookie': format_cookie(user['cookie'])
         })
 
     return jsonify({
@@ -160,19 +160,20 @@ def challenge_lookup(challenge_id):
 # HELPER FUNCTIONS
 
 def make_cookie(username: str):
-    cookie_str = base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
-
-    return f"challengeCookie={cookie_str};max-age=max-age-in-seconds=60*60*24*14"
+    return base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
 
 def get_user_by_cookie(cookie: str):
     user = [users[user] for user in users.items() if users[user]['cookie'] == cookie]
     return user[0] if user else None
 
+def format_cookie(cookie: str):
+    return f"challengeCookie={cookie};max-age=max-age-in-seconds=60*60*24*14"
+
 def make_user(username: str):
     new_user = {
         "username": username,
         "challenges": [],
-        "cookie": make_cookie(username)
+        "cookie": format_cookie(make_cookie(username))
     }
     users[username] = new_user
 
