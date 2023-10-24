@@ -272,8 +272,8 @@
           errorText.hidden = false;
         } else {
           if (data.correct) {
-            document.getElementById('challengeSubmitText').hidden = !data.gotFlag;
-            document.getElementById('submitButton').disabled = data.gotFlag;
+            document.getElementById('challengeSubmitText').hidden = false;
+            document.getElementById('submitButton').disabled = true;
             errorText.hidden = true;
           } else {
             errorText.innerHTML = "Your submitted flag was incorrect.";
@@ -311,11 +311,11 @@
 
         if (!res) {
           document.getElementById('usernameInput').style.borderColor = 'orangered';
-          document.getElementById('accountFoundWarn').hidden = res;
+          document.getElementById('accountFoundWarn').hidden = false;
+        } else {
+          $('#loginModal').modal('hide');
+          await updateMainPage();
         }
-
-        $('#loginModal').modal('hide');
-        await updateMainPage();
       };
 
       // Central functions
