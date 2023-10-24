@@ -321,7 +321,7 @@
         document.getElementById('loginButton').hidden = cookie;
         document.getElementById('logoutButton').hidden = !cookie;
         document.getElementById('pointsDisplay').hidden = !cookie;
-        document.getElementById('pointsDisplay').innerHTML = data.valid ? `Points: ${data.points}` : "Points: ?";
+        document.getElementById('pointsDisplay').innerHTML = data && data.valid ? `Points: ${data.points}` : "Points: ?";
 
         document.getElementById('challengeSubmitText').hidden = true;
         document.getElementById('challengeErrorText').hidden = true;
