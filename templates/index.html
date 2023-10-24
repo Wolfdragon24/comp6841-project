@@ -233,12 +233,12 @@
         updateMainPage();
       });
 
-      $(document).on('show.bs.modal', '#challengeModal', (event) => {
+      $(document).on('show.bs.modal', '#challengeModal', async (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
         const challengeId = button.data('challenge');
         const cookie = getCookie();
 
-        const data = getChallengeInfo(cookie, challengeId);
+        const data = await getChallengeInfo(cookie, challengeId);
 
         if (data) {
           document.getElementById('challengeModalLabel').innerHTML = data.title;
@@ -251,11 +251,11 @@
         }
       });
 
-      const submitFlag = (challengeId) => {
+      const submitFlag = async (challengeId) => {
         const submission = document.getElementById('flagInput').value;
         const cookie = getCookie();
 
-        const data = submitChallenge(cookie, challengeId, submission);
+        const data = await submitChallenge(cookie, challengeId, submission);
 
         if (!data.valid) {
           if (data.correct) {
@@ -273,10 +273,10 @@
         }
       };
 
-      const login = () => {
+      const login = async () => {
         const username = document.getElementById('usernameInput').value;
 
-        const res = makeConnection(username);
+        const res = await makeConnection(username);
         if (!res) {
           document.getElementById('usernameInput').style.borderColor = 'red';
           document.getElementById('noAccountWarn').hidden = res;
@@ -293,10 +293,10 @@
         updateMainPage();
       }
 
-      const createAccount = () => {
+      const createAccount = async () => {
         const username = document.getElementById('usernameInput').value;
 
-        const res = makeConnection(username);
+        const res = await makeConnection(username);
 
         if (res) {
           document.getElementById('usernameInput').style.borderColor = 'orangered';
