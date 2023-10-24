@@ -229,8 +229,8 @@
 
     <script>
       // Event & button handlers
-      $(document).ready(() => {
-        updateMainPage();
+      $(document).ready(async () => {
+        await updateMainPage();
       });
 
       $(document).on('show.bs.modal', '#challengeModal', async (event) => {
@@ -284,13 +284,13 @@
           return;
         }
 
-        updateMainPage();
+        await updateMainPage();
       };
 
-      const logout = () => {
+      const logout = async () => {
         document.cookie = 'challengeCookie=;'
 
-        updateMainPage();
+        await updateMainPage();
       }
 
       const createAccount = async () => {
@@ -306,7 +306,7 @@
 
       // Central functions
 
-      const updateMainPage = () => {
+      const updateMainPage = async () => {
         // Reset page elements to defaults
         document.getElementById('usernameInput').style.borderColor = '';
         document.getElementById('noAccountWarn').hidden = true;
@@ -315,7 +315,7 @@
         const cookie = getCookie();
         let data;
         if (cookie) {
-          data = getUserData(cookie)
+          data = await getUserData(cookie)
         };
 
         document.getElementById('loginButton').hidden = cookie;
@@ -331,43 +331,43 @@
 
       // Requests
 
-      const makeConnection = (username) => {
-        fetch(`/user/${username}`, {
+      const makeConnection = async (username) => {
+        const res = await fetch(`/user/${username}`, {
           method: "GET"
-        }).then(res => res.json())
-          .then(data => {
-            if (data.valid) {
-              document.cookie = data.cookie;
-            }
-
-            return data.valid;
         });
+        
+        const data = await res.json();
+        if (data.valid) {
+          document.cookie = data.cookie;
+        }
+
+        return data.valid;
       }
 
-      const getUserData = (cookie) => {
-        fetch('/user', {
+      const getUserData = async (cookie) => {
+        const res = await fetch('/user', {
           method: "GET",
           headers: {
             "user": cookie,
           }
-        }).then(res => {
-          return res.json();
         });
+
+        return await res.json();
       }
 
-      const getChallengeInfo = (cookie, challengeId) => {
-        fetch(`/challenge/${challengeId}`, {
+      const getChallengeInfo = async (cookie, challengeId) => {
+        const res = await fetch(`/challenge/${challengeId}`, {
           method: "GET",
           headers: {
             "user": cookie,
           },
-        }).then(res => {
-          return res.json();
         });
+
+        return await res.json();
       }
 
-      const submitChallenge = (cookie, challengeId, submission) => {
-        fetch(`/challenge/${challengeId}`, {
+      const submitChallenge = async (cookie, challengeId, submission) => {
+        const res = await fetch(`/challenge/${challengeId}`, {
           method: "POST",
           headers: {
             "user": cookie,
@@ -375,9 +375,9 @@
           body: {
             "submission": submission,
           }
-        }).then(res => {
-          return res.json();
         });
+
+        return await res.json();
       }
       
       // Processing
