@@ -88,7 +88,7 @@ def challenge_lookup(challenge_id):
         return jsonify({
             'valid': False
         })
-    got_flag = challenge_id in user['challenges']
+    got_flag = challenge_id in user['challenges'] if user else False
 
     if request.method == "GET":
         return jsonify({
@@ -98,6 +98,11 @@ def challenge_lookup(challenge_id):
             'gotFlag': got_flag
         })
     if request.method == "POST":
+        if not user:
+            return jsonify({
+                    'valid': False,
+                    'correct': False
+                })
         data = request.get_json(force=True)
         if data['submission'] == f"DOM_CTF{{{challenge['answer']}}}":
             if got_flag:

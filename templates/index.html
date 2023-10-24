@@ -154,7 +154,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <p style="color: green" id="submitText" hidden>Flag Was Correct!</p>
+            <p style="color: green" id="challengeSubmitText" hidden>Flag Was Correct!</p>
+            <p style="color: red" id="challengeErrorText" hidden></p>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="submitFlag()" id="submitButton">Submit Flag</button>
           </div>
@@ -242,7 +243,7 @@
         if (data) {
           document.getElementById('challengeModalLabel').innerHTML = data.title;
           document.getElementById('taskDesc').innerHTML = data.desc;
-          document.getElementById('submitText').hidden = !data.gotFlag;
+          document.getElementById('challengeSubmitText').hidden = !data.gotFlag;
           document.getElementById('submitButton').disabled = data.gotFlag;
         } else {
           document.getElementById('challengeModalLabel').innerHTML = "ERROR";
@@ -255,6 +256,21 @@
         const cookie = getCookie();
 
         const data = submitChallenge(cookie, challengeId, submission);
+
+        if (!data.valid) {
+          if (data.correct) {
+            document.getElementById('challengeErrorText').innerHTML = "Error: You have already got this flag!";
+          } else {
+            document.getElementById('challengeErrorText').innerHTML = "Error: You must be logged in to submit a flag!";
+          }
+        } else {
+          if (data.correct) {
+            document.getElementById('challengeSubmitText').hidden = !data.gotFlag;
+            document.getElementById('submitButton').disabled = data.gotFlag;
+          } else {
+            document.getElementById('challengeErrorText').innerHTML = "Your submitted flag was incorrect.";
+          }
+        }
       };
 
       const login = () => {
@@ -306,6 +322,9 @@
         document.getElementById('logoutButton').hidden = !cookie;
         document.getElementById('pointsDisplay').hidden = !cookie;
         document.getElementById('pointsDisplay').innerHTML = data.valid ? `Points: ${data.points}` : "Points: ?";
+
+        document.getElementById('challengeSubmitText').hidden = true;
+        document.getElementById('challengeErrorText').hidden = true;
       }
 
       // Helper Functions
