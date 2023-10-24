@@ -73,6 +73,7 @@ def locate_user(user_id):
         })
 
         user = make_user(user_id)
+        update_db(users)
 
         return jsonify({
             'valid': True,
