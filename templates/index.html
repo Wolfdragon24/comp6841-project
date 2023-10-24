@@ -238,6 +238,10 @@
         const challengeId = button.data('challenge');
         const cookie = getCookie();
 
+        document.getElementById('submitButton').dataset.challengeId = challengeId;
+        document.getElementById('challengeSubmitText').hidden = true;
+        document.getElementById('challengeErrorText').hidden = true;
+
         const data = await getChallengeInfo(cookie, challengeId);
 
         if (data) {
@@ -249,7 +253,6 @@
           document.getElementById('challengeModalLabel').innerHTML = "ERROR";
           document.getElementById('taskDesc').innerHTML = "An unexpected error occurred in trying to fetch challenge information. Please try again later...";
         }
-        document.getElementById('submitButton').dataset.challengeId = challengeId;
       });
 
       const submitFlag = async () => {
