@@ -157,7 +157,7 @@
             <p style="color: green" id="challengeSubmitText" hidden>Flag Was Correct!</p>
             <p style="color: red" id="challengeErrorText" hidden></p>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="submitFlag()" id="submitButton">Submit Flag</button>
+            <button type="button" class="btn btn-primary" onclick="submitFlag()" id="submitButton" data-challengeId="test">Submit Flag</button>
           </div>
         </div>
       </div>
@@ -249,11 +249,13 @@
           document.getElementById('challengeModalLabel').innerHTML = "ERROR";
           document.getElementById('taskDesc').innerHTML = "An unexpected error occurred in trying to fetch challenge information. Please try again later...";
         }
+        document.getElementById('submitButton').dataset.challengeId = challengeId;
       });
 
-      const submitFlag = async (challengeId) => {
+      const submitFlag = async () => {
         const submission = document.getElementById('flagInput').value;
         const cookie = getCookie();
+        const challengeId = document.getElementById('submitButton').dataset.challengeId;
 
         const data = await submitChallenge(cookie, challengeId, submission);
 
