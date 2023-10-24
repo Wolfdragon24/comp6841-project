@@ -229,7 +229,7 @@
 
     <script>
       // Event & button handlers
-      $(document).ready(async () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         await updateMainPage();
       });
 
@@ -320,7 +320,7 @@
         const cookie = getCookie();
         let data;
         if (cookie) {
-          data = await getUserData(cookie)
+          data = await getUserData(cookie);
         };
 
         document.getElementById('loginButton').hidden = cookie;
