@@ -35,11 +35,11 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
-@app.route('resources/<str:name>', methods=['GET'])
+@app.route('/resources/<string:name>', methods=['GET'])
 def fetch_resource(name):
     return send_file(f'resources/{name}')
 
-@app.route('/user/<str:user_id>', methods=['GET'])
+@app.route('/user/<string:user_id>', methods=['GET'])
 def locate_user(user_id):
     if request.method == "GET":
         if user_id in users:
@@ -77,7 +77,7 @@ def user_details():
         'valid': False
     })
 
-@app.route('/challenge/<str:challenge_id>', methods=['GET', 'POST'])
+@app.route('/challenge/<string:challenge_id>', methods=['GET', 'POST'])
 def challenge_lookup(challenge_id):
     cookie = request.headers.get('cookie', '')
     user = get_user_by_cookie(cookie)
