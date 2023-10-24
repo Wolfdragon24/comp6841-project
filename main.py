@@ -163,7 +163,7 @@ def make_cookie(username: str):
     return base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
 
 def get_user_by_cookie(cookie: str):
-    user = [users[user] for user in users.items() if users[user]['cookie'] == cookie]
+    user = [users[user] for user in users if users[user]['cookie'] == cookie]
     return user[0] if user else None
 
 def format_cookie(cookie: str):
