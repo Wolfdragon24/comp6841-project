@@ -334,7 +334,7 @@
         document.getElementById('noAccountWarn').hidden = true;
         document.getElementById('accountFoundWarn').hidden = true;
 
-        const cookie = getCookie();
+        let cookie = getCookie();
         let data;
         if (cookie) {
           data = await getUserData(cookie);
