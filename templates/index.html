@@ -405,9 +405,9 @@
           headers: {
             "user": cookie,
           },
-          body: {
+          body: JSON.stringify({
             "submission": submission,
-          }
+          })
         });
 
         return await res.json();
