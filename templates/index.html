@@ -350,10 +350,11 @@
       }
 
       const createConnection = async (username) => {
-        const addReq = await fetch(`/user/${username}`, {
+        const res = await fetch(`/user/${username}`, {
           method: "POST"
         });
 
+        const data = await res.json();
         if (data.valid) {
           document.cookie = data.cookie;
         }
