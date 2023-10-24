@@ -281,6 +281,8 @@
             document.getElementById('challengeSubmitText').hidden = false;
             document.getElementById('submitButton').disabled = true;
             errorText.hidden = true;
+
+            await updateMainPage();
           } else {
             errorText.innerHTML = "Your submitted flag was incorrect.";
             errorText.hidden = false;
