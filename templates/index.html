@@ -403,7 +403,7 @@
       const getCookie = () => document.cookie
         .split("; ")
         .find((row) => row.startsWith(`challengeCookie=`))
-        ?.split("=")[1]?.split(";")[0];
+        ?.replace('challengeCookie=', '')?.split(";")[0];
     </script>
   </body>
 </html>
