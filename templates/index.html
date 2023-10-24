@@ -340,7 +340,10 @@
           data = await getUserData(cookie);
         };
 
-        if (!data?.valid) document.cookie = 'challengeCookie=;';
+        if (!data?.valid) {
+          document.cookie = 'challengeCookie=;';
+          cookie = undefined;
+        }
 
         document.getElementById('loginButton').hidden = cookie;
         document.getElementById('logoutButton').hidden = !cookie;
