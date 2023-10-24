@@ -400,12 +400,6 @@
       
       // Processing
 
-      const makeCookie = (username) => {
-        const cookie = btoa(`${username}-${Date.now().toString()}`);
-
-        document.cookie = `challengeCookie=${cookie};max-age=max-age-in-seconds=60*60*24*14`;
-      }
-
       const getCookie = () => document.cookie
         .split("; ")
         .find((row) => row.startsWith(`challengeCookie=`))

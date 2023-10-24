@@ -160,7 +160,9 @@ def challenge_lookup(challenge_id):
 # HELPER FUNCTIONS
 
 def make_cookie(username: str):
-    return base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
+    cookie_str = base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
+
+    return f"challengeCookie={cookie_str};max-age=max-age-in-seconds=60*60*24*14"
 
 def get_user_by_cookie(cookie: str):
     user = [users[user] for user in users.items() if users[user]['cookie'] == cookie]
