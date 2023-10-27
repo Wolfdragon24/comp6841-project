@@ -21,7 +21,7 @@ challenges = {
     },
     "stego": {
         "title": "Great views up here!",
-        "desc": "Up in the air again in yet another challenge. This time, keep your eyes out for clues and you might just spot the keys you're looking for. Your key will be enclosed in two keys, though what you have now might not be what you must use now...\n\n<a href='http://ctf.wolfdragon.me:5000/resources/stego.png'>Resources</a>",
+        "desc": "Up in the air again in yet another challenge. This time, keep your eyes out for clues and you might just spot the keys you're looking for. Seek for what is contained, and you might find another source. Your key will be enclosed in two keys, though what you have now might not be what you must use now...\n\n<a href='http://ctf.wolfdragon.me:5000/resources/stego.png'>Resources</a>",
         "answer": "HIDDEN_IN_PLANE_SIGHT"
     }
 }
