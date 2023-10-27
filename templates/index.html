@@ -47,7 +47,7 @@
   </head>
 
   <body class="background">
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: grey;">
+    <nav class="navbar navbar-dark" style="background-color: grey;">
       <a class="navbar-brand" href="#">CTF Challenge</a>
       <div class="collapse navbar-collapse align-items-center" id="navbarNavAltMarkup">
         <div class="navbar-nav mr-auto">
@@ -278,11 +278,11 @@
           errorText.hidden = false;
         } else {
           if (data.correct) {
+            await updateMainPage();
+
             document.getElementById('challengeSubmitText').hidden = false;
             document.getElementById('submitButton').disabled = true;
             errorText.hidden = true;
-
-            await updateMainPage();
           } else {
             errorText.innerHTML = "Your submitted flag was incorrect.";
             errorText.hidden = false;
