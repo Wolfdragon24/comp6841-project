@@ -175,7 +175,7 @@ def make_user(username: str):
     new_user = {
         "username": username,
         "challenges": [],
-        "cookie": format_cookie(make_cookie(username))
+        "cookie": make_cookie(username)
     }
     users[username] = new_user
 
