@@ -11,22 +11,22 @@ aus = pytz.timezone('Australia/Sydney')
 challenges = {
     "osint": {
         "title": "Where was I taken?",
-        "desc": "I spy with my little eye... a world far down below. Name from whence the lens nigh, then the flag you seek you know.\n\nThe flag is in all caps separated by underscores, e.g. DOM_CTF{CENTRAL_STATION}. <a href='http://ctf.wolfdragon.me:5000/resources/osint.jpg'>resources</a>",
+        "desc": "I spy with my little eye... a world far down below. Name from whence the lens nigh, then the flag you seek you know.\n\nThe flag is in all caps separated by underscores, e.g. DOM_CTF{CENTRAL_STATION}. <a href='http://ctf.wolfdragon.me:5000/resources/osint.jpg' download>Resources</a>",
         "answer": "MERITON_SUITE_WORLD_TOWER"
     },
     "bufferformat": {
         "title": "One won't bring you far enough...",
-        "desc": "You've seen buffer overflows vulnerabilities, you've seen format strings vulnerabilities, but have you needed both?\n\nLocated at <code>nc ctf.wolfdragon.me 62401</code> is the answer you seek, exploring the binary locally first from <a href='http://ctf.wolfdragon.me:5000/resources/bufferformat'>resources</a> is highly recommended!",
+        "desc": "You've seen buffer overflows vulnerabilities, you've seen format strings vulnerabilities, but have you needed both?\n\nLocated at <code>nc ctf.wolfdragon.me 62401</code> is the answer you seek, exploring the binary locally first from <a href='http://ctf.wolfdragon.me:5000/resources/bufferformat' download>resources</a> is highly recommended!",
         "answer": "TRAILBLAZED_THE_DOUBLE"
     },
     "stego": {
         "title": "Great views up here!",
-        "desc": "Up in the air again in yet another challenge. This time, keep your eyes out for clues and you might just spot the keys you're looking for. Seek for what is contained, and you might find another source. Your key will be enclosed in two keys, though what you have now might not be what you must use now...\n\n<a href='http://ctf.wolfdragon.me:5000/resources/stego.png'>Resources</a>",
+        "desc": "Up in the air again in yet another challenge. This time, keep your eyes out for clues and you might just spot the keys you're looking for. Seek for what is contained, and you might find another source. Your key will be enclosed in two keys, though what you have now might not be what you must use now...\n\n<a href='http://ctf.wolfdragon.me:5000/resources/stego.png' download>Resources</a>",
         "answer": "HIDDEN_IN_PLANE_SIGHT"
     },
     "thomas": {
         "title": "They're two, they're four, they're six, they're eight",
-        "desc": "Thomas needs your help to decipher a hidden secret. Take a look through the <a href='http://ctf.wolfdragon.me:5000/resources/thomas.zip'>resources</a> to find a page of clues, a scrap transcript, and an image which will aid your quest.",
+        "desc": "Thomas needs your help to decipher a hidden secret. Take a look through the <a href='http://ctf.wolfdragon.me:5000/resources/thomas.zip' download>resources</a> to find a page of clues, a scrap transcript, and an image which will aid your quest.",
         "answer": "APPARENTLY_TANK_ENGINES_CAN_BE_EATEN"
     }
 }
