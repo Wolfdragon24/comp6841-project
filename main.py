@@ -55,9 +55,13 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
+@app.route('/internal_resources/<string:name>', methods=['GET'])
+def fetch_internal_res(name):
+    return send_file(f'resources/{name}')
+
 @app.route('/resources/<string:name>', methods=['GET'])
 def fetch_resource(name):
-    return send_file(f'resources/{name}')
+    return send_file(f'resources/{name}', as_attachment=True)
 
 @app.route('/user/<string:user_id>', methods=['GET', 'POST'])
 def locate_user(user_id):
