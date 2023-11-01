@@ -1,0 +1,7 @@
+This challenge involves ciphers and analysis of image and text data. One potential solution is as follows:
+
+1. First, by analysing the image or utilising Google Lens, it is possible to identify the location as the Zig Zag Railway, NSW. With this in mind, and reading the clue text, it is possible to identify the cipher method as the Rail Fence or Zig-Zag cipher. Drawing from the clue, and googling Thomas the Tank Engine blue engines, you can find the following page which details the four unnamed blue engines, and thus the key: https://ttte.fandom.com/wiki/The_Blue_Engines
+
+2. With this information, you can run the initial cipher string through a decrypter. This provides the next cipher required, as well as a clue for the key required for the next cipher string.
+
+3. After identifying the key as the capitals of the script, and utilising this with the cipher text, you can acquire the flag.
