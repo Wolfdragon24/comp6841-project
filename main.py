@@ -2,6 +2,8 @@ import os
 import json
 import datetime
 import base64
+from multiprocessing import Lock
+from multiprocessing.managers import AcquirerProxy, BaseManager, DictProxy
 
 from flask import Flask, render_template, send_file, jsonify, request
 import pytz
@@ -31,10 +33,17 @@ challenges = {
     }
 }
 
+HOST = "127.0.0.1"
+PORT = 62400
+KEY = b"secret"
+
 def fetch_db():
-    if os.path.exists('database.json'):
-        with open('database.json', 'r', encoding='utf-8') as f:
-            return json.load(f)
+    try:
+        if os.path.exists('database.json'):
+            with open('database.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except ValueError:
+        pass
 
     return {}
 
@@ -42,9 +51,20 @@ def update_db(data):
     with open('database.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2)
 
-# SETUP
+def get_shared_state(host, port, key):
+    stored_dict = fetch_db()
+    lock = Lock()
+    manager = BaseManager((host, port), key)
+    manager.register("get_dict", lambda: stored_dict, DictProxy)
+    manager.register("get_lock", lambda: lock, AcquirerProxy)
+    try:
+        manager.get_server()
+        manager.start()
+    except OSError:  # Address already in use
+        manager.connect()
+    return manager.get_dict(), manager.get_lock()
 
-users = fetch_db()
+users, shared_lock = get_shared_state(HOST, PORT, KEY)
 
 # Construct application
 app = Flask(__name__)
@@ -82,7 +102,8 @@ def locate_user(user_id):
         })
 
         user = make_user(user_id)
-        update_db(users)
+        with shared_lock:
+            update_db(users.copy())
 
         return jsonify({
             'valid': True,
@@ -118,6 +139,7 @@ def user_details():
 def challenge_lookup(challenge_id):
     cookie = request.headers.get('user', '')
     user = get_user_by_cookie(cookie)
+    user_id = user['username']
 
     if challenge_id in challenges:
         challenge = challenges[challenge_id]
@@ -150,7 +172,9 @@ def challenge_lookup(challenge_id):
 
             user['challenges'].append(challenge_id)
 
-            update_db(users)
+            with shared_lock:
+                users[user_id] = user
+                update_db(users.copy())
 
             return jsonify({
                 'valid': True,
@@ -167,6 +191,12 @@ def challenge_lookup(challenge_id):
     })
 
 # ADMIN ROUTES
+@app.route("/admin/list_users")
+def list_users():
+    if request.args.get('password') == "ctfOverride":
+        with shared_lock:
+            return jsonify(users.copy())
+    return ""
 
 # HELPER FUNCTIONS
 
@@ -174,8 +204,13 @@ def make_cookie(username: str):
     return base64.b64encode(f'{username}-{datetime.datetime.now(aus)}'.encode('utf-8')).decode()
 
 def get_user_by_cookie(cookie: str):
-    user = [users[user] for user in users if users[user]['cookie'] == cookie]
+    with shared_lock:
+        user = [users[user] for user in users.keys() if users[user]['cookie'] == cookie]
     return user[0] if user else None
+
+def check_username_present(username: str):
+    with shared_lock:
+        return username in users
 
 def format_cookie(cookie: str):
     return f"challengeCookie={cookie};max-age=max-age-in-seconds=60*60*24*14"
@@ -186,6 +221,7 @@ def make_user(username: str):
         "challenges": [],
         "cookie": make_cookie(username)
     }
-    users[username] = new_user
+    with shared_lock:
+        users[username] = new_user
 
     return new_user
