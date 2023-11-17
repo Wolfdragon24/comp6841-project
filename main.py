@@ -139,7 +139,7 @@ def user_details():
 def challenge_lookup(challenge_id):
     cookie = request.headers.get('user', '')
     user = get_user_by_cookie(cookie)
-    user_id = user['username']
+    user_id = user['username'] if user else None
 
     if challenge_id in challenges:
         challenge = challenges[challenge_id]
